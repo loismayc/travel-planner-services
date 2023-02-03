@@ -52,13 +52,9 @@ public class ValidateSaveTravelItems
     {
         var cultureInfo = new CultureInfo("en-US");
         int id = int.Parse(payload["id"].ToString());
-        string startDate = payload["startDate"].ToString();
-        string endDate = payload["endDate"].ToString();
-
 
         if (!payload.ContainsKey("destination"))
         {
-            Console.WriteLine(startDate);
             Errors["destination"].Add("destination is required");
         }
 
@@ -70,14 +66,20 @@ public class ValidateSaveTravelItems
         {
             try
             {
-                DateTime.ParseExact(startDate, "D", cultureInfo);
+                if (DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo) == DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo))
+                {
+                    Errors["startDate"].Add("start date cannot be the same with end date");
+                }
 
+                DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo);
             }
-            catch (FormatException e)
+
+            catch (FormatException a)
             {
-                Errors["startDate"].Add("Unable to parse date");
+                Errors["startDate"].Add("invalid date");
             }
         }
+
 
         if (!payload.ContainsKey("endDate"))
         {
@@ -87,12 +89,17 @@ public class ValidateSaveTravelItems
         {
             try
             {
-                DateTime.ParseExact(endDate, "D", cultureInfo);
+                if (DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo) > DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo))
+                {
+                    Errors["endDate"].Add("invalid date range");
+                }
 
+                DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo);
             }
+
             catch (FormatException e)
             {
-                Errors["endDate"].Add("Unable to parse date");
+                Errors["endDate"].Add("invalid date");
             }
         }
 

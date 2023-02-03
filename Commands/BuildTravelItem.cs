@@ -23,7 +23,6 @@ public class BuildTravelItem
         string startDate = data["startDate"].ToString();
         string endDate = data["endDate"].ToString();
         string user = data["user"].ToString();
-        //var parsedDate = DateTime.Parse(startDate).ToString();
 
         travelItem = new Item { Id = id, Destination = destination, StartDate = startDate, EndDate = endDate, User = user };
         return travelItem;
