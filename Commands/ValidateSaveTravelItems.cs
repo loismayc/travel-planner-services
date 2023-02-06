@@ -1,7 +1,6 @@
 namespace TravelPlannerServices.Commands;
 
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 public class ValidateSaveTravelItems
 {
@@ -15,9 +14,7 @@ public class ValidateSaveTravelItems
         this.Errors = new Dictionary<string, List<string>>();
         Errors.Add("destination", new List<string>());
         Errors.Add("startDate", new List<string>());
-        Errors.Add("startTime", new List<string>());
         Errors.Add("endDate", new List<string>());
-        Errors.Add("endTime", new List<string>());
         Errors.Add("user", new List<string>());
     }
 
@@ -42,14 +39,6 @@ public class ValidateSaveTravelItems
         {
             ans = true;
         }
-        if (Errors["startTime"].Count > 0)
-        {
-            ans = true;
-        }
-        if (Errors["endTime"].Count > 0)
-        {
-            ans = true;
-        }
 
         return ans;
     }
@@ -62,7 +51,7 @@ public class ValidateSaveTravelItems
     public void Execute()
     {
         var cultureInfo = new CultureInfo("en-US");
-
+        int id = int.Parse(payload["id"].ToString());
 
         if (!payload.ContainsKey("destination"))
         {
@@ -119,53 +108,8 @@ public class ValidateSaveTravelItems
             Errors["user"].Add("user is required");
         }
 
-        if (!payload.ContainsKey("startTime"))
-        {
-            Errors["startTime"].Add("time is required");
-        }
-        else
-        {
-            try
-            {
-                Regex regex = new Regex(@"^([01]?[0-9]|2[0-3]):[0-5][0-9]$");
-                if (regex.IsMatch(payload["startTime"].ToString()))
-                {
-
-                }
-                else
-                {
-                    Errors["startTime"].Add("invalid format");
-
-                }
-
-            }
-            catch (Exception)
-            {
-                Errors["startTime"].Add("Invalid format");
-            }
-        }
-
         // validation if date does not overlap with other dates
         // validation if start date is before end date and vice versa
-        // create validation for user name
-
-        /*sample for regex
-        
-        string email = "example@domain.com";
-        try
-        {
-            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            Match match = regex.Match(email);
-            if (!match.Success)
-            {
-                throw new FormatException();
-            }
-        }
-        catch (FormatException)
-        {
-            Console.WriteLine("Email address is invalid");
-        }
-        */
 
     }
 

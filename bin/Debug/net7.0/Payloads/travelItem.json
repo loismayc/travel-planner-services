@@ -1,9 +1,7 @@
 {
-  
+    "id": 3,
     "destination" : "Batanes", 
     "startDate": "Monday, April 10, 2023",
-    "startTime": "05:20",
     "endDate": "Thursday, April 20, 2023",
-    "endTime": "16:00",
     "user": "John Doe"
 }
