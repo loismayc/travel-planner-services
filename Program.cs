@@ -1,5 +1,7 @@
 using TravelPlannerServices.Interfaces;
 using TravelPlannerServices.Services;
+using TravelPlannerServices.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace TravelPlannerServices
 {
@@ -12,12 +14,16 @@ namespace TravelPlannerServices
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("MSSqlConnection"));
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             // add services
-            builder.Services.AddScoped<ITravelItemsService, TravelItemServices>();
+            builder.Services.AddScoped<ITravelItemsService, TravelItemsMSSqlService>();
 
             var app = builder.Build();
 

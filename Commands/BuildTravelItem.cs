@@ -18,13 +18,18 @@ public class BuildTravelItem
     {
         Item travelItem = new Item();
 
-        int id = int.Parse(data["id"].ToString());
-        string destination = data["destination"].ToString();
-        string startDate = data["startDate"].ToString();
-        string endDate = data["endDate"].ToString();
-        string user = data["user"].ToString();
+        if (this.data.ContainsKey("id"))
+        {
+            int id = int.Parse(data["id"].ToString());
+        }
 
-        travelItem = new Item { Id = id, Destination = destination, StartDate = startDate, EndDate = endDate, User = user };
+        travelItem.Destination = data["destination"].ToString();
+        travelItem.StartDate = data["startDate"].ToString();
+        travelItem.StartTime = data["startTime"].ToString();
+        travelItem.EndDate = data["endDate"].ToString();
+        travelItem.EndTime = data["endTime"].ToString();
+        travelItem.User = data["user"].ToString();
+
         return travelItem;
     }
 

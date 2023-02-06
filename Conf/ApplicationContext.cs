@@ -22,8 +22,8 @@ public class ApplicationContext
     public ApplicationContext()
     {
         this.travelItems = new List<Item>(){
-            new Item{ Id = 1, Destination = "Cebu", StartDate = "Friday, February 10, 2023" , EndDate = "Monday, February 20, 2023", User = "John Doe"},
-            new Item{ Id = 2, Destination = "Bohol", StartDate = "Tuesday, March 10, 2023", EndDate = "Friday, March 13, 2023", User = "Jane Doe"},
+            new Item{ Id = 1, Destination = "Cebu", StartDate = "Friday, February 10, 2023" , StartTime="03:45", EndDate = "Monday, February 20, 2023", EndTime="02:00", User = "John Doe"},
+            new Item{ Id = 2, Destination = "Bohol", StartDate = "Tuesday, March 10, 2023", StartTime="10:00", EndDate = "Friday, March 13, 2023", EndTime="13:00", User = "Jane Doe"},
 
         };
     }
