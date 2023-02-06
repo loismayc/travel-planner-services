@@ -2,10 +2,10 @@ namespace TravelPlannerServices.Interfaces;
 using TravelPlannerServices.Models;
 public interface ITravelItemsService
 {
-    public List<Item> GetAll();
-    public void Save(Item item);
+    public List<TravelItem> GetAll();
+    public void Save(TravelItem item);
     public void Delete(int id);
-    public Item FindById(int id);
+    public TravelItem FindById(int id);
 
 
 }

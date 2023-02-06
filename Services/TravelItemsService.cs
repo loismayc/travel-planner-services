@@ -9,7 +9,7 @@ public class TravelItemServices : ITravelItemsService
 {
 
 
-    public Item FindById(int id)
+    public TravelItem FindById(int id)
     {
         return ApplicationContext.Instance.travelItems.FirstOrDefault(i => i.Id == id);
 
@@ -20,12 +20,12 @@ public class TravelItemServices : ITravelItemsService
 
 
     }
-    public List<Item> GetAll()
+    public List<TravelItem> GetAll()
     {
         return ApplicationContext.Instance.travelItems;
     }
 
-    public void Save(Item item)
+    public void Save(TravelItem item)
     {
         ApplicationContext.Instance.travelItems.Add(item);
     }

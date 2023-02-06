@@ -20,25 +20,25 @@ public class TravelItemsMSSqlService : ITravelItemsService
         throw new NotImplementedException();
     }
 
-    public Item FindById(int id)
+    public TravelItem FindById(int id)
     {
-        return _dataContext.Items.SingleOrDefault(i => i.Id == id);
+        return _dataContext.TravelItems.SingleOrDefault(i => i.Id == id);
     }
 
-    public List<Item> GetAll()
+    public List<TravelItem> GetAll()
     {
-        return _dataContext.Items.ToList<Item>();
+        return _dataContext.TravelItems.ToList<TravelItem>();
     }
 
-    public void Save(Item item)
+    public void Save(TravelItem item)
     {
         if (item.Id == null || item.Id == 0)
         {
-            _dataContext.Items.Add(item);
+            _dataContext.TravelItems.Add(item);
         }
         else
         {
-            Item temp = this.FindById(item.Id);
+            TravelItem temp = this.FindById(item.Id);
             temp.Destination = item.Destination;
             temp.StartDate = item.StartDate;
             temp.EndDate = item.EndDate;

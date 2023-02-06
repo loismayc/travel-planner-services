@@ -14,9 +14,9 @@ public class BuildTravelItem
 
     }
 
-    public Item Execute()
+    public TravelItem Execute()
     {
-        Item travelItem = new Item();
+        TravelItem travelItem = new TravelItem();
 
         if (this.data.ContainsKey("id"))
         {
@@ -24,10 +24,10 @@ public class BuildTravelItem
         }
 
         travelItem.Destination = data["destination"].ToString();
-        travelItem.StartDate = data["startDate"].ToString();
-        travelItem.StartTime = data["startTime"].ToString();
-        travelItem.EndDate = data["endDate"].ToString();
-        travelItem.EndTime = data["endTime"].ToString();
+        travelItem.StartDate = DateTime.Parse(data["startDate"].ToString());
+        travelItem.StartTime = DateTime.Parse(data["startTime"].ToString());
+        travelItem.EndDate = DateTime.Parse(data["endDate"].ToString());
+        travelItem.EndTime = DateTime.Parse(data["endTime"].ToString());
         travelItem.User = data["user"].ToString();
 
         return travelItem;
