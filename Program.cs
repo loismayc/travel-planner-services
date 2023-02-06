@@ -1,5 +1,7 @@
 using TravelPlannerServices.Interfaces;
 using TravelPlannerServices.Services;
+using TravelPlannerServices.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace TravelPlannerServices
 {
@@ -9,6 +11,10 @@ namespace TravelPlannerServices
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddDbContext<DataContext>(options =>
+                        {
+                            options.UseSqlServer(builder.Configuration.GetConnectionString("MSSqlConnection"));
+                        });
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -17,7 +23,7 @@ namespace TravelPlannerServices
             builder.Services.AddSwaggerGen();
 
             // add services
-            builder.Services.AddScoped<ITravelItemsService, TravelItemServices>();
+            builder.Services.AddScoped<ITravelItemsService, TravelItemsMSSqlService>();
 
             var app = builder.Build();
 

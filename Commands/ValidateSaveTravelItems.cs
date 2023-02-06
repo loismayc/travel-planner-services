@@ -1,7 +1,7 @@
 namespace TravelPlannerServices.Commands;
 
 using System.Globalization;
-
+using System.Text.RegularExpressions;
 public class ValidateSaveTravelItems
 {
     private Dictionary<string, object> payload;
@@ -35,6 +35,7 @@ public class ValidateSaveTravelItems
         {
             ans = true;
         }
+
         if (Errors["user"].Count > 0)
         {
             ans = true;
@@ -103,13 +104,7 @@ public class ValidateSaveTravelItems
             }
         }
 
-        if (!payload.ContainsKey("user"))
-        {
-            Errors["user"].Add("user is required");
-        }
 
-        // validation if date does not overlap with other dates
-        // validation if start date is before end date and vice versa
 
     }
 

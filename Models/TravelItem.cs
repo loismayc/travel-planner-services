@@ -1,12 +1,11 @@
 namespace TravelPlannerServices.Models
 {
-    public class Item
+    public class TravelItem
     {
         public int Id { get; set; }
         public string? Destination { get; set; }
-        public string? StartDate { get; set; }
-        public string? EndDate { get; set; }
-
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string? User { get; set; }
     }
 }
