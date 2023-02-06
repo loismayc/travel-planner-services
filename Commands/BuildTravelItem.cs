@@ -27,6 +27,5 @@ public class BuildTravelItem
         travelItem = new Item { Id = id, Destination = destination, StartDate = startDate, EndDate = endDate, User = user };
         return travelItem;
     }
-
-
 }
+

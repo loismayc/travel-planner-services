@@ -36,8 +36,8 @@ public class TravelItemsController : ControllerBase
 
             var item = new BuildTravelItem(hash);
 
-            Item travelItem = item.Execute();
-            _travelItemsService.Save(travelItem);
+            //  TravelItem travelItem = item.Execute();
+            //    _travelItemsService.Save(travelItem);
 
             Dictionary<string, object> message = new Dictionary<string, object>();
             message.Add("message", "Ok");
