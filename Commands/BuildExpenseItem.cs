@@ -1,15 +1,18 @@
 namespace TravelPlannerServices.Commands;
 
 using TravelPlannerServices.Models;
+using TravelPlannerServices.Interfaces;
 
 public class BuildExpenseItem
 {
     private Dictionary<string, object> data;
+    public ITravelItemsService _travelItemsService;
 
 
-    public BuildExpenseItem(Dictionary<string, object> data)
+    public BuildExpenseItem(Dictionary<string, object> data, ITravelItemsService travelItemsService)
     {
         this.data = data;
+        _travelItemsService = travelItemsService;
 
     }
 

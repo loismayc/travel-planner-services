@@ -24,6 +24,7 @@ namespace TravelPlannerServices
 
             // add services
             builder.Services.AddScoped<ITravelItemsService, TravelItemsMSSqlService>();
+            builder.Services.AddScoped<IExpenseItemsServices, ExpenseItemsMSSqlServices>();
 
             var app = builder.Build();
 

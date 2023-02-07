@@ -12,6 +12,9 @@ public class ExpenseItemsController : ControllerBase
 {
     private readonly IExpenseItemsServices _expenseItemsService;
 
+    private readonly ITravelItemsService _travelItemsService;
+
+
     public ExpenseItemsController(IExpenseItemsServices expenseItemsService)
     {
         _expenseItemsService = expenseItemsService;
@@ -23,17 +26,26 @@ public class ExpenseItemsController : ControllerBase
     public IActionResult Save([FromBody] object payload)
     {
         Dictionary<string, object> hash = JsonSerializer.Deserialize<Dictionary<string, object>>(payload.ToString());
+        ValidateSaveExpenseItems validator = new ValidateSaveExpenseItems(hash);
+        validator.Execute();
 
+        if (validator.HasErrors())
+        {
+            return UnprocessableEntity(validator.Errors);
+        }
+        else
+        {
 
-        var item = new BuildExpenseItem(hash);
+            var item = new BuildExpenseItem(hash, _travelItemsService);
 
-        ExpenseItem expenseItem = item.Execute();
-        _expenseItemsService.Save(expenseItem);
+            ExpenseItem expenseItem = item.Execute();
+            _expenseItemsService.Save(expenseItem);
 
-        Dictionary<string, object> message = new Dictionary<string, object>();
-        message.Add("message", "Ok");
+            Dictionary<string, object> message = new Dictionary<string, object>();
+            message.Add("message", "Ok");
 
-        return Ok(message);
+            return Ok(message);
+        }
 
     }
 

@@ -10,23 +10,42 @@ public class ExpenseItemsMSSqlServices : IExpenseItemsServices
 {
 
     private readonly DataContext _dataContext;
+
     public ExpenseItemsMSSqlServices(DataContext dataContext)
     {
         _dataContext = dataContext;
+
     }
 
     public ExpenseItem FindById(int id)
     {
-        throw new NotImplementedException();
+        return _dataContext.ExpenseItems.SingleOrDefault(i => i.Id == id);
+
     }
 
     public List<ExpenseItem> GetAll()
     {
-        throw new NotImplementedException();
+        return _dataContext.ExpenseItems.ToList<ExpenseItem>();
+
     }
 
     public void Save(ExpenseItem item)
     {
-        throw new NotImplementedException();
+        if (item.Id == null || item.Id == 0)
+        {
+            _dataContext.ExpenseItems.Add(item);
+        }
+        else
+        {
+            ExpenseItem temp = this.FindById(item.Id);
+            temp.Cost = item.Cost;
+            temp.Name = item.Name;
+            temp.Note = item.Note;
+            temp.TravelItem = item.TravelItem;
+
+
+        }
+
+        _dataContext.SaveChanges();
     }
 }

@@ -26,6 +26,7 @@ public class BuildTravelItem
         travelItem.StartDate = DateTime.Parse(data["startDate"].ToString());
         travelItem.EndDate = DateTime.Parse(data["endDate"].ToString());
         travelItem.User = data["user"].ToString();
+
         return travelItem;
     }
 

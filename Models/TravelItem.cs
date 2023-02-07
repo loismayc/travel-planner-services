@@ -7,5 +7,6 @@ namespace TravelPlannerServices.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string? User { get; set; }
+        public List<ExpenseItem> ExpenseItems { get; set; }
     }
 }

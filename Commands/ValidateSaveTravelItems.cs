@@ -52,7 +52,6 @@ public class ValidateSaveTravelItems
     public void Execute()
     {
         var cultureInfo = new CultureInfo("en-US");
-        int id = int.Parse(payload["id"].ToString());
 
         if (!payload.ContainsKey("destination"))
         {
