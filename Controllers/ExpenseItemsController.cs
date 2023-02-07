@@ -12,8 +12,6 @@ public class ExpenseItemsController : ControllerBase
 {
     private readonly IExpenseItemsServices _expenseItemsService;
 
-    private readonly ITravelItemsService _travelItemsService;
-
 
     public ExpenseItemsController(IExpenseItemsServices expenseItemsService)
     {
@@ -36,7 +34,7 @@ public class ExpenseItemsController : ControllerBase
         else
         {
 
-            var item = new BuildExpenseItem(hash, _travelItemsService);
+            var item = new BuildExpenseItem(hash);
 
             ExpenseItem expenseItem = item.Execute();
             _expenseItemsService.Save(expenseItem);

@@ -11,13 +11,26 @@ namespace TravelPlannerServices
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+            var corsConfigName = "CORS-Config";
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: corsConfigName, policy =>
+                {
+                    policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+                });
+            });
             builder.Services.AddDbContext<DataContext>(options =>
                         {
                             options.UseSqlServer(builder.Configuration.GetConnectionString("MSSqlConnection"));
                         });
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+                options.JsonSerializerOptions.WriteIndented = true;
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -34,6 +47,8 @@ namespace TravelPlannerServices
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors(corsConfigName);
 
             app.UseHttpsRedirection();
 

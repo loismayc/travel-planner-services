@@ -6,13 +6,12 @@ using TravelPlannerServices.Interfaces;
 public class BuildExpenseItem
 {
     private Dictionary<string, object> data;
-    public ITravelItemsService _travelItemsService;
 
 
-    public BuildExpenseItem(Dictionary<string, object> data, ITravelItemsService travelItemsService)
+    public BuildExpenseItem(Dictionary<string, object> data)
     {
         this.data = data;
-        _travelItemsService = travelItemsService;
+
 
     }
 

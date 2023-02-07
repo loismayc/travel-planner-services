@@ -10,13 +10,16 @@ public class TravelItemsMSSqlService : ITravelItemsService
 {
 
     private readonly DataContext _dataContext;
+
+
     public TravelItemsMSSqlService(DataContext dataContext)
     {
         _dataContext = dataContext;
+
     }
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        _dataContext.TravelItems.Remove(FindById(id));
     }
 
     public TravelItem FindById(int id)
@@ -41,7 +44,7 @@ public class TravelItemsMSSqlService : ITravelItemsService
             temp.Destination = item.Destination;
             temp.StartDate = item.StartDate;
             temp.EndDate = item.EndDate;
-            temp.User = item.User;
+            temp.Budget = item.Budget;
 
         }
 

@@ -1,6 +1,6 @@
 {
-    "cost" : 2500, 
-    "name": "Expense Item 1",
-    "note": "Expense 1 Note 1",
-    "travelItemId": 1
+    "cost" : 3500, 
+    "name": "Expense Item 2",
+    "note": "Expense 2 Note 1",
+    "travelItemId": 3
 }

@@ -10,10 +10,12 @@ public class ExpenseItemsMSSqlServices : IExpenseItemsServices
 {
 
     private readonly DataContext _dataContext;
+    public ITravelItemsService _travelItemService;
 
-    public ExpenseItemsMSSqlServices(DataContext dataContext)
+    public ExpenseItemsMSSqlServices(DataContext dataContext, ITravelItemsService travelItemService)
     {
         _dataContext = dataContext;
+        _travelItemService = travelItemService;
 
     }
 
@@ -25,7 +27,14 @@ public class ExpenseItemsMSSqlServices : IExpenseItemsServices
 
     public List<ExpenseItem> GetAll()
     {
-        return _dataContext.ExpenseItems.ToList<ExpenseItem>();
+        //return _dataContext.ExpenseItems.ToList<ExpenseItem>();
+        List<ExpenseItem> expenseItem = _dataContext.ExpenseItems.ToList<ExpenseItem>();
+        foreach (ExpenseItem item in expenseItem)
+        {
+            item.TravelItem = _travelItemService.FindById(item.TravelItemId);
+        }
+
+        return expenseItem;
 
     }
 
