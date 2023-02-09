@@ -7,15 +7,15 @@ using TravelPlannerServices.Interfaces;
 using TravelPlannerServices.Commands;
 
 [ApiController]
-[Route("expense_items")]
-public class ExpenseItemsController : ControllerBase
+[Route("categories")]
+public class CategoriesController : ControllerBase
 {
-    private readonly IExpenseItemsServices _expenseItemsService;
+    private readonly ICategoryService _categoryService;
 
 
-    public ExpenseItemsController(IExpenseItemsServices expenseItemsService)
+    public CategoriesController(ICategoryService categoryService)
     {
-        _expenseItemsService = expenseItemsService;
+        _categoryService = categoryService;
 
     }
 
@@ -24,7 +24,8 @@ public class ExpenseItemsController : ControllerBase
     public IActionResult Save([FromBody] object payload)
     {
         Dictionary<string, object> hash = JsonSerializer.Deserialize<Dictionary<string, object>>(payload.ToString());
-        ValidateSaveExpenseItems validator = new ValidateSaveExpenseItems(hash);
+
+        ValidateSaveCategories validator = new ValidateSaveCategories(hash);
         validator.Execute();
 
         if (validator.HasErrors())
@@ -34,16 +35,17 @@ public class ExpenseItemsController : ControllerBase
         else
         {
 
-            var item = new BuildExpenseItem(hash);
+            var item = new BuildCategories(hash);
 
-            ExpenseItem expenseItem = item.Execute();
-            _expenseItemsService.Save(expenseItem);
+            Category categories = item.Execute();
+            _categoryService.Save(categories);
 
             Dictionary<string, object> message = new Dictionary<string, object>();
             message.Add("message", "Ok");
 
             return Ok(message);
         }
+
 
     }
 
@@ -52,15 +54,15 @@ public class ExpenseItemsController : ControllerBase
     public IActionResult Index()
     {
 
-        List<ExpenseItem> expenseItems = _expenseItemsService.GetAll();
-        return Ok(expenseItems);
+        List<Category> categories = _categoryService.GetAll();
+        return Ok(categories);
     }
 
 
     [HttpGet("{id}")]
     public IActionResult Show(int id)
     {
-        var item = _expenseItemsService.FindById(id);
+        var item = _categoryService.FindById(id);
         return Ok(item);
     }
 

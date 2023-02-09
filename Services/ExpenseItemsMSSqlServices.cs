@@ -27,16 +27,21 @@ public class ExpenseItemsMSSqlServices : IExpenseItemsServices
 
     public List<ExpenseItem> GetAll()
     {
-        //return _dataContext.ExpenseItems.ToList<ExpenseItem>();
-        List<ExpenseItem> expenseItem = _dataContext.ExpenseItems.ToList<ExpenseItem>();
-        foreach (ExpenseItem item in expenseItem)
-        {
-            item.TravelItem = _travelItemService.FindById(item.TravelItemId);
-        }
+        return _dataContext.ExpenseItems.ToList<ExpenseItem>();
+        // List<ExpenseItem> expenseItems = _dataContext.ExpenseItems.ToList<ExpenseItem>();
+        // foreach (ExpenseItem item in expenseItems)
+        // {
+        //     item.TravelItem = _travelItemService.FindById(item.TravelItemId);
+        // }
 
-        return expenseItem;
+        // return expenseItems;
 
     }
+
+    // public List<ExpenseItem> GetByTravelItemId(int travelItemId)
+    // {
+    //     return _dataContext.ExpenseItems.Where(x => x.TravelItemId == travelItemId).ToList<ExpenseItem>();
+    // }
 
     public void Save(ExpenseItem item)
     {
@@ -56,5 +61,12 @@ public class ExpenseItemsMSSqlServices : IExpenseItemsServices
         }
 
         _dataContext.SaveChanges();
+    }
+
+    public void Delete(int id)
+    {
+        _dataContext.ExpenseItems.Remove(FindById(id));
+        _dataContext.SaveChanges();
+
     }
 }

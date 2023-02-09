@@ -1,7 +1,6 @@
 namespace TravelPlannerServices.Commands;
 
 using TravelPlannerServices.Models;
-using TravelPlannerServices.Interfaces;
 
 public class BuildExpenseItem
 {

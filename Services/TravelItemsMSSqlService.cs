@@ -12,14 +12,19 @@ public class TravelItemsMSSqlService : ITravelItemsService
     private readonly DataContext _dataContext;
 
 
+
+
     public TravelItemsMSSqlService(DataContext dataContext)
     {
         _dataContext = dataContext;
+
 
     }
     public void Delete(int id)
     {
         _dataContext.TravelItems.Remove(FindById(id));
+        _dataContext.SaveChanges();
+
     }
 
     public TravelItem FindById(int id)
@@ -30,7 +35,19 @@ public class TravelItemsMSSqlService : ITravelItemsService
     public List<TravelItem> GetAll()
     {
         return _dataContext.TravelItems.ToList<TravelItem>();
+        // var travelItems = _dataContext.TravelItems.ToList<TravelItem>();
+
+        // foreach (TravelItem item in travelItems)
+        // {
+        //     item.ExpenseItems = _expenseItemsService.GetByTravelItemId(item.Id);
+        // }
+
+        // return travelItems;
     }
+
+
+
+
 
     public void Save(TravelItem item)
     {

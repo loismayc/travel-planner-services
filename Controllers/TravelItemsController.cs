@@ -50,10 +50,8 @@ public class TravelItemsController : ControllerBase
     [HttpGet("")] //routes to method below
     public IActionResult Index()
     {
-        Dictionary<string, object> message = new Dictionary<string, object>();
-        message.Add("travel_items", _travelItemsService.GetAll());
-
-        return Ok(message);
+        List<TravelItem> travelItems = _travelItemsService.GetAll();
+        return Ok(travelItems);
     }
 
 
@@ -69,7 +67,8 @@ public class TravelItemsController : ControllerBase
     public IActionResult Delete(int id)
     {
         _travelItemsService.Delete(id);
-        return Ok("Item deleted");
+        var result = new { Message = "Item deleted" };
+        return Ok(result);
     }
 
 

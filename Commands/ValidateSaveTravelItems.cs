@@ -62,46 +62,46 @@ public class ValidateSaveTravelItems
         {
             Errors["startDate"].Add("start date is required");
         }
-        else
-        {
-            try
-            {
-                if (DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo) == DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo))
-                {
-                    Errors["startDate"].Add("start date cannot be the same with end date");
-                }
+        // else
+        // {
+        //     try
+        //     {
+        //         if (DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo) == DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo))
+        //         {
+        //             Errors["startDate"].Add("start date cannot be the same with end date");
+        //         }
 
-                DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo);
-            }
+        //         DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo);
+        //     }
 
-            catch (FormatException a)
-            {
-                Errors["startDate"].Add("invalid date");
-            }
-        }
+        //     catch (FormatException a)
+        //     {
+        //         Errors["startDate"].Add("invalid date");
+        //     }
+        // }
 
 
         if (!payload.ContainsKey("endDate"))
         {
             Errors["endDate"].Add("end date is required");
         }
-        else
-        {
-            try
-            {
-                if (DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo) > DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo))
-                {
-                    Errors["endDate"].Add("invalid date range");
-                }
+        // else
+        // {
+        //     try
+        //     {
+        //         if (DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo) > DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo))
+        //         {
+        //             Errors["endDate"].Add("invalid date range");
+        //         }
 
-                DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo);
-            }
+        //         DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo);
+        //     }
 
-            catch (FormatException e)
-            {
-                Errors["endDate"].Add("invalid date");
-            }
-        }
+        //     catch (FormatException e)
+        //     {
+        //         Errors["endDate"].Add("invalid date");
+        //     }
+        // }
 
 
 
