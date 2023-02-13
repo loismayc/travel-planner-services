@@ -26,6 +26,8 @@ public class BuildExpenseItem
         expenseItem.Name = data["name"].ToString();
         expenseItem.Note = data["note"].ToString();
         expenseItem.TravelItemId = int.Parse(data["travelItemId"].ToString());
+        expenseItem.CategoryId = int.Parse(data["categoryId"].ToString());
+
         return expenseItem;
     }
 

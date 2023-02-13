@@ -1,6 +1,8 @@
 {
-    "cost" : 3500, 
-    "name": "Expense Item 1",
-    "note": "Expense 1 Note 1",
-    "travelItemId": 3
+    "cost" : 800, 
+    "name": "Zipline",
+    "note": "One person expense",
+    "travelItemId": 2,
+    "categoryId": 4
+
 }

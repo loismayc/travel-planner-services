@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TravelPlannerServices.Interfaces;
 using TravelPlannerServices.Models;
 using TravelPlannerServices.Data;
-
+using Microsoft.EntityFrameworkCore;
 
 public class ExpenseItemsMSSqlServices : IExpenseItemsServices
 {
@@ -27,21 +27,12 @@ public class ExpenseItemsMSSqlServices : IExpenseItemsServices
 
     public List<ExpenseItem> GetAll()
     {
-        return _dataContext.ExpenseItems.ToList<ExpenseItem>();
-        // List<ExpenseItem> expenseItems = _dataContext.ExpenseItems.ToList<ExpenseItem>();
-        // foreach (ExpenseItem item in expenseItems)
-        // {
-        //     item.TravelItem = _travelItemService.FindById(item.TravelItemId);
-        // }
-
-        // return expenseItems;
+        return _dataContext.ExpenseItems
+       .Include(ei => ei.Category)
+       .Include(ei => ei.TravelItem)
+       .ToList<ExpenseItem>();
 
     }
-
-    // public List<ExpenseItem> GetByTravelItemId(int travelItemId)
-    // {
-    //     return _dataContext.ExpenseItems.Where(x => x.TravelItemId == travelItemId).ToList<ExpenseItem>();
-    // }
 
     public void Save(ExpenseItem item)
     {

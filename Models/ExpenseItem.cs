@@ -5,7 +5,7 @@ namespace TravelPlannerServices.Models
         public int Id { get; set; }
         public int Cost { get; set; }
 
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public string? Note { get; set; }
         public int TravelItemId { get; set; }
         public int CategoryId { get; set; }

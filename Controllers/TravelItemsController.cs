@@ -22,55 +22,117 @@ public class TravelItemsController : ControllerBase
     [HttpPost("")]
     public IActionResult Save([FromBody] object payload)
     {
-        Dictionary<string, object> hash = JsonSerializer.Deserialize<Dictionary<string, object>>(payload.ToString());
-
-        ValidateSaveTravelItems validator = new ValidateSaveTravelItems(hash);
-        validator.Execute();
-
-        if (validator.HasErrors())
+        try
         {
-            return UnprocessableEntity(validator.Errors);
+            Dictionary<string, object> hash = JsonSerializer.Deserialize<Dictionary<string, object>>(payload.ToString());
+
+            ValidateSaveTravelItems validator = new ValidateSaveTravelItems(hash, _travelItemsService);
+            validator.Execute();
+
+            if (validator.HasErrors())
+            {
+                return UnprocessableEntity(validator.Errors);
+            }
+            else
+            {
+
+                var item = new BuildTravelItem(hash);
+
+                TravelItem travelItem = item.Execute();
+                _travelItemsService.Save(travelItem);
+                return Ok(travelItem);
+            }
         }
-        else
+        catch (Exception)
         {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error saving items");
 
-            var item = new BuildTravelItem(hash);
-
-            TravelItem travelItem = item.Execute();
-            _travelItemsService.Save(travelItem);
-
-            Dictionary<string, object> message = new Dictionary<string, object>();
-            message.Add("message", "Ok");
-
-            return Ok(message);
         }
     }
+
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, [FromBody] object payload)
+    {
+        try
+        {
+            Dictionary<string, object> hash = JsonSerializer.Deserialize<Dictionary<string, object>>(payload.ToString());
+
+            ValidateSaveTravelItems validator = new ValidateSaveTravelItems(hash, _travelItemsService);
+            validator.Execute();
+
+            if (validator.HasErrors())
+            {
+                return UnprocessableEntity(validator.Errors);
+            }
+            else
+            {
+
+                var item = new BuildTravelItem(hash);
+
+                TravelItem travelItem = item.Execute();
+                _travelItemsService.Save(travelItem);
+                return Ok(travelItem);
+            }
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error saving items");
+
+        }
+    }
+
 
     // curl http://localhost:5137/travel_items | jq
     [HttpGet("")] //routes to method below
     public IActionResult Index()
     {
-        List<TravelItem> travelItems = _travelItemsService.GetAll();
-        return Ok(travelItems);
+        try
+        {
+            List<TravelItem> travelItems = _travelItemsService.GetAll();
+            return Ok(travelItems);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error getting travel items");
+
+        }
+
     }
 
 
     [HttpGet("{id}")]
     public IActionResult Show(int id)
     {
-        var item = _travelItemsService.FindById(id);
-        return Ok(item);
+        try
+        {
+            var item = _travelItemsService.FindById(id);
+            return Ok(item);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error showing item");
+
+        }
+
     }
 
     // command: curl -X DELETE http://localhost:5137/travel_items/{}
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        _travelItemsService.Delete(id);
-        var result = new { Message = "Item deleted" };
-        return Ok(result);
+        try
+        {
+            _travelItemsService.Delete(id);
+            var result = new { Message = "Item deleted from backend" };
+            return Ok(result);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting item");
+
+        }
+
+
+
     }
-
-
-
 }

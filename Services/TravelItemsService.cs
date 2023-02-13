@@ -29,4 +29,9 @@ public class TravelItemServices : ITravelItemsService
     {
         ApplicationContext.Instance.travelItems.Add(item);
     }
+
+    public List<TravelItem> GetItemsByDate(string date)
+    {
+        throw new NotImplementedException();
+    }
 }

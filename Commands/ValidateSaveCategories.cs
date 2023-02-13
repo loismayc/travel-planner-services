@@ -1,7 +1,5 @@
 namespace TravelPlannerServices.Commands;
 
-using System.Globalization;
-using System.Text.RegularExpressions;
 public class ValidateSaveCategories
 {
     private Dictionary<string, object> payload;

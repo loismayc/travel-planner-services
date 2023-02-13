@@ -19,7 +19,7 @@ public class CategoriesController : ControllerBase
 
     }
 
-    //curl -X POST -H "Content-Type: application/json" -d @payloads/expenseItem.json http://localhost:5137/expense_items | jq
+    //curl -X POST -H "Content-Type: application/json" -d @payloads/categories.json http://localhost:5137/categories | jq
     [HttpPost("")]
     public IActionResult Save([FromBody] object payload)
     {
@@ -49,7 +49,7 @@ public class CategoriesController : ControllerBase
 
     }
 
-    // curl http://localhost:5137/expense_items | jq
+    // curl http://localhost:5137/categories | jq
     [HttpGet("")] //routes to method below
     public IActionResult Index()
     {

@@ -6,6 +6,8 @@ public interface ITravelItemsService
     public void Save(TravelItem item);
     public void Delete(int id);
     public TravelItem FindById(int id);
+    public List<TravelItem> GetItemsByDate(string date);
+
 
 
 }

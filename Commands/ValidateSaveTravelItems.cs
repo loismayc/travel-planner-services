@@ -1,15 +1,19 @@
 namespace TravelPlannerServices.Commands;
 
 using System.Globalization;
+using TravelPlannerServices.Interfaces;
 using System.Text.RegularExpressions;
 public class ValidateSaveTravelItems
 {
     private Dictionary<string, object> payload;
     public Dictionary<string, List<string>> Errors { get; private set; }
+    private readonly ITravelItemsService _travelItemsService;
 
-    public ValidateSaveTravelItems(Dictionary<string, object> payload)
+
+    public ValidateSaveTravelItems(Dictionary<string, object> payload, ITravelItemsService travelItemsService)
     {
         this.payload = payload;
+        this._travelItemsService = travelItemsService;
 
         this.Errors = new Dictionary<string, List<string>>();
         Errors.Add("destination", new List<string>());
@@ -51,6 +55,9 @@ public class ValidateSaveTravelItems
 
     public void Execute()
     {
+        DateTime startDate = new DateTime();
+        DateTime endDate = new DateTime();
+
         var cultureInfo = new CultureInfo("en-US");
 
         if (!payload.ContainsKey("destination"))
@@ -62,50 +69,76 @@ public class ValidateSaveTravelItems
         {
             Errors["startDate"].Add("start date is required");
         }
-        // else
-        // {
-        //     try
-        //     {
-        //         if (DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo) == DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo))
-        //         {
-        //             Errors["startDate"].Add("start date cannot be the same with end date");
-        //         }
-
-        //         DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo);
-        //     }
-
-        //     catch (FormatException a)
-        //     {
-        //         Errors["startDate"].Add("invalid date");
-        //     }
-        // }
+        else
+        {
+            try
+            {
+                startDate = DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null);
+            }
+            catch (Exception ex)
+            {
+                Errors["startDate"].Add(ex.Message);
+            }
+        }
 
 
         if (!payload.ContainsKey("endDate"))
         {
             Errors["endDate"].Add("end date is required");
         }
-        // else
-        // {
-        //     try
-        //     {
-        //         if (DateTime.ParseExact(payload["startDate"].ToString(), "D", cultureInfo) > DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo))
-        //         {
-        //             Errors["endDate"].Add("invalid date range");
-        //         }
-
-        //         DateTime.ParseExact(payload["endDate"].ToString(), "D", cultureInfo);
-        //     }
-
-        //     catch (FormatException e)
-        //     {
-        //         Errors["endDate"].Add("invalid date");
-        //     }
-        // }
+        else
+        {
+            try
+            {
+                endDate = DateTime.ParseExact(payload["endDate"].ToString(), "yyyy-MM-dd", null);
+            }
+            catch (Exception ex)
+            {
+                Errors["endDate"].Add(ex.Message);
+            }
+        }
 
 
+        if (payload.ContainsKey("startDate") && payload.ContainsKey("endDate"))
+        {
+
+            // Check if end date is valid
+            if (endDate < startDate)
+            {
+                Errors["endDate"].Add("End Date must be greater than start date");
+            }
+            if (startDate < endDate)
+            {
+                Errors["startDate"].Add("start date must be earlier than end date");
+            }
+
+            var startDates = _travelItemsService.GetItemsByDate(payload["startDate"].ToString());
+            var endDates = _travelItemsService.GetItemsByDate(payload["endDate"].ToString());
+
+            string toDoTimeConflict = "";
+
+            // Check if date is overlapping with other saved items
+            bool overlap = startDates.Any(x =>
+            {
+                DateTime tempStart = DateTime.ParseExact(x.StartDate.ToString(), "yyyy-MM-dd", null);
+                DateTime tempEnd = DateTime.ParseExact(x.EndDate.ToString(), "yyyy-MM-dd", null);
+
+                // Check if the new start and end dates fall completely within the start and end dates of any existing items
+                if (tempStart <= startDate && endDate <= tempEnd)
+                {
+                    toDoTimeConflict = x.Destination;
+                    return true;
+                }
+
+                return false;
+            });
+
+            if (overlap)
+            {
+                Errors["startTime"].Add($"Time entered is conflicting with the time of another trip to {toDoTimeConflict}");
+            }
+
+        }
 
     }
-
-
 }

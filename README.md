@@ -1,4 +1,13 @@
-# Travel and Expense Items API C# ASP Backend
+# Travel Expenses Planner ASP.NET Backend
+
+##Set-up
+
+1. Please see files under "Controllers" folder to check available endpoints.
+2. Edit the connection strings file configuration to connect to server
+3. Navigate to project directory in CMD and type "dotnet run".
+
+Note: This is connected to the frontend project I made here:
+You can edit the api URL for each service under "Services" folder to integrate with the back-end application
 
 ## Commands for Testing (via curl)
 

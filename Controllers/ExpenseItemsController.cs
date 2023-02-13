@@ -23,49 +23,115 @@ public class ExpenseItemsController : ControllerBase
     [HttpPost("")]
     public IActionResult Save([FromBody] object payload)
     {
-        Dictionary<string, object> hash = JsonSerializer.Deserialize<Dictionary<string, object>>(payload.ToString());
-        ValidateSaveExpenseItems validator = new ValidateSaveExpenseItems(hash);
-        validator.Execute();
-
-        if (validator.HasErrors())
+        try
         {
-            return UnprocessableEntity(validator.Errors);
+            Dictionary<string, object> hash = JsonSerializer.Deserialize<Dictionary<string, object>>(payload.ToString());
+            ValidateSaveExpenseItems validator = new ValidateSaveExpenseItems(hash);
+            validator.Execute();
+
+            if (validator.HasErrors())
+            {
+                return UnprocessableEntity(validator.Errors);
+            }
+            else
+            {
+
+                var item = new BuildExpenseItem(hash);
+
+                ExpenseItem expenseItem = item.Execute();
+                _expenseItemsService.Save(expenseItem);
+
+                return Ok(expenseItem);
+            }
         }
-        else
+        catch (Exception)
         {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error saving items");
 
-            var item = new BuildExpenseItem(hash);
-
-            ExpenseItem expenseItem = item.Execute();
-            _expenseItemsService.Save(expenseItem);
-
-            Dictionary<string, object> message = new Dictionary<string, object>();
-            message.Add("message", "Ok");
-
-            return Ok(message);
         }
 
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult Update([FromBody] object payload)
+    {
+        try
+        {
+            Dictionary<string, object> hash = JsonSerializer.Deserialize<Dictionary<string, object>>(payload.ToString());
+            ValidateSaveExpenseItems validator = new ValidateSaveExpenseItems(hash);
+            validator.Execute();
+
+            if (validator.HasErrors())
+            {
+                return UnprocessableEntity(validator.Errors);
+            }
+            else
+            {
+
+                var item = new BuildExpenseItem(hash);
+
+                ExpenseItem expenseItem = item.Execute();
+                _expenseItemsService.Save(expenseItem);
+
+                return Ok(expenseItem);
+            }
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error saving items");
+
+        }
     }
 
     // curl http://localhost:5137/expense_items | jq
     [HttpGet("")] //routes to method below
     public IActionResult Index()
     {
+        try
+        {
+            List<ExpenseItem> expenseItems = _expenseItemsService.GetAll();
+            return Ok(expenseItems);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error getting items");
 
-        List<ExpenseItem> expenseItems = _expenseItemsService.GetAll();
-        return Ok(expenseItems);
+        }
+
+
     }
 
 
     [HttpGet("{id}")]
     public IActionResult Show(int id)
     {
-        var item = _expenseItemsService.FindById(id);
-        return Ok(item);
+        try
+        {
+            var item = _expenseItemsService.FindById(id);
+            return Ok(item);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error displaying item");
+
+        }
+
     }
 
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        try
+        {
+            _expenseItemsService.Delete(id);
+            var result = new { Message = "Item deleted from backend" };
+            return Ok(result);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting item");
 
-
-
+        }
+    }
 
 }
