@@ -2,7 +2,6 @@ namespace TravelPlannerServices.Commands;
 
 using System.Globalization;
 using TravelPlannerServices.Interfaces;
-using System.Text.RegularExpressions;
 public class ValidateSaveTravelItems
 {
     private Dictionary<string, object> payload;
@@ -73,14 +72,19 @@ public class ValidateSaveTravelItems
         {
             try
             {
-                startDate = DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null);
+                if (DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null) == DateTime.ParseExact(payload["endDate"].ToString(), "yyyy-MM-dd", null))
+                {
+                    Errors["startDate"].Add("start date cannot be the same with end date");
+                }
+
+                DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null);
             }
-            catch (Exception ex)
+
+            catch (FormatException a)
             {
-                Errors["startDate"].Add(ex.Message);
+                Errors["startDate"].Add("invalid date");
             }
         }
-
 
         if (!payload.ContainsKey("endDate"))
         {
@@ -90,11 +94,17 @@ public class ValidateSaveTravelItems
         {
             try
             {
-                endDate = DateTime.ParseExact(payload["endDate"].ToString(), "yyyy-MM-dd", null);
+                if (DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null) > DateTime.ParseExact(payload["endDate"].ToString(), "yyyy-MM-dd", null))
+                {
+                    Errors["endDate"].Add("invalid date range");
+                }
+
+                DateTime.ParseExact(payload["endDate"].ToString(), "yyyy-MM-dd", null);
             }
-            catch (Exception ex)
+
+            catch (FormatException e)
             {
-                Errors["endDate"].Add(ex.Message);
+                Errors["endDate"].Add("invalid date");
             }
         }
 
@@ -102,12 +112,15 @@ public class ValidateSaveTravelItems
         if (payload.ContainsKey("startDate") && payload.ContainsKey("endDate"))
         {
 
+            DateTime start = DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null);
+            DateTime end = DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null);
+
             // Check if end date is valid
-            if (endDate < startDate)
+            if (end < start)
             {
                 Errors["endDate"].Add("End Date must be greater than start date");
             }
-            if (startDate < endDate)
+            if (start < end)
             {
                 Errors["startDate"].Add("start date must be earlier than end date");
             }
