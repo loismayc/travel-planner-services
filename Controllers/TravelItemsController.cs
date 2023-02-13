@@ -19,7 +19,7 @@ public class TravelItemsController : ControllerBase
     }
 
     //curl -X POST -H "Content-Type: application/json" -d @payloads/travelItem.json http://localhost:5137/travel_items | jq
-    [HttpPost("")]
+    [HttpPost()]
     public IActionResult Save([FromBody] object payload)
     {
         try
@@ -83,7 +83,7 @@ public class TravelItemsController : ControllerBase
 
 
     // curl http://localhost:5137/travel_items | jq
-    [HttpGet("")] //routes to method below
+    [HttpGet()] //routes to method below
     public IActionResult Index()
     {
         try

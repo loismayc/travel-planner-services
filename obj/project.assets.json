@@ -3879,11 +3879,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lois83274\\OneDrive - Willis Towers Watson\\Desktop\\trainocate\\travel-planner-services\\travel-planner-services.csproj",
+      "projectUniqueName": "C:\\Users\\lois83274\\Downloads\\reference\\travel-planner-services\\travel-planner-services.csproj",
       "projectName": "travel-planner-services",
-      "projectPath": "C:\\Users\\lois83274\\OneDrive - Willis Towers Watson\\Desktop\\trainocate\\travel-planner-services\\travel-planner-services.csproj",
+      "projectPath": "C:\\Users\\lois83274\\Downloads\\reference\\travel-planner-services\\travel-planner-services.csproj",
       "packagesPath": "C:\\Users\\lois83274\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lois83274\\OneDrive - Willis Towers Watson\\Desktop\\trainocate\\travel-planner-services\\obj\\",
+      "outputPath": "C:\\Users\\lois83274\\Downloads\\reference\\travel-planner-services\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -72,12 +72,11 @@ public class ValidateSaveTravelItems
         {
             try
             {
-                if (DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null) == DateTime.ParseExact(payload["endDate"].ToString(), "yyyy-MM-dd", null))
+                if (payload["startDate"].ToString() == payload["endDate"].ToString())
                 {
                     Errors["startDate"].Add("start date cannot be the same with end date");
                 }
 
-                DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null);
             }
 
             catch (FormatException a)
@@ -90,37 +89,20 @@ public class ValidateSaveTravelItems
         {
             Errors["endDate"].Add("end date is required");
         }
-        else
-        {
-            try
-            {
-                if (DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null) > DateTime.ParseExact(payload["endDate"].ToString(), "yyyy-MM-dd", null))
-                {
-                    Errors["endDate"].Add("invalid date range");
-                }
-
-                DateTime.ParseExact(payload["endDate"].ToString(), "yyyy-MM-dd", null);
-            }
-
-            catch (FormatException e)
-            {
-                Errors["endDate"].Add("invalid date");
-            }
-        }
 
 
         if (payload.ContainsKey("startDate") && payload.ContainsKey("endDate"))
         {
 
-            DateTime start = DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null);
-            DateTime end = DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null);
+            // DateTime start = DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null);
+            // DateTime end = DateTime.ParseExact(payload["startDate"].ToString(), "yyyy-MM-dd", null);
 
             // Check if end date is valid
-            if (end < start)
+            if (endDate < startDate)
             {
                 Errors["endDate"].Add("End Date must be greater than start date");
             }
-            if (start < end)
+            if (startDate < endDate)
             {
                 Errors["startDate"].Add("start date must be earlier than end date");
             }
